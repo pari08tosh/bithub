@@ -1,0 +1,9 @@
+.register-form {
+    padding: 0px;
+    margin: 0px;
+    position: relative;
+    left: 25vw;
+}
+.register-form .form-group {
+  width: 50vw;
+}

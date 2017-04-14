@@ -1,0 +1,13 @@
+h2 {
+  text-align: center; 
+}
+
+.login-form {
+    padding: 0px;
+    margin: 0px;
+    position: relative;
+    left: 25vw;
+}
+.login-form .form-group {
+  width: 50vw;
+}

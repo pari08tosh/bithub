@@ -15,7 +15,9 @@ router.post('/register', (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     username: req.body.username,
-    password: req.body.password
+    password: req.body.password,
+    securityQuestion: req.body.securityQuestion,
+    securityAns: req.body.securityAns,
   });
 
   User.getUserByUsername(newUser.username, (err, data) => {
@@ -77,6 +79,48 @@ router.post('/authenticate', (req, res, next) => {
 // Profile
 router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   res.json(req.user);
+});
+
+router.post('/forgotPassword/username', (req, res, next) => {
+  let username = req.body.username;
+  User.getUserByUsername(username, (err, user) => {
+    if (err) throw err;
+    if (user) {
+      res.json({
+        success: true,
+        securityQuestion: user.securityQuestion,
+      });
+    } else {
+      res.json({
+        success: false,
+        msg: 'Invalid Username',
+      });
+    }
+  });
+});
+
+router.post('/forgotPassword/answer', (req, res, next) => {
+  let username = req.body.username;
+  let answer = req.body.answer;
+  let password = req.body.password;
+  User.getUserByUsername(username, (err, user) => {
+    if (err) throw err;
+    if(answer === user.securityAns) {
+      user.password = password;
+      User.updatePassword(user, (err, data) => {
+        if (err) throw err;
+        res.json({
+          success: true,
+          msg: 'Password Changed',
+        });
+      });
+    } else {
+      res.json({
+      success: false,
+      msg: 'Wrong Answer',
+    });
+    }
+  });
 });
 
 module.exports = router;

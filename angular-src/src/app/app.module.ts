@@ -17,13 +17,16 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ValidateService } from './services/validate.service';
 import { AuthService } from './services/auth.service';
 import { AuthguardService } from'./services/authguard.service';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'forgotPassword', component: ForgotPasswordComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthguardService] },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthguardService] },
+
 ]
 
 @NgModule({
@@ -35,6 +38,7 @@ const appRoutes: Routes = [
     HomeComponent,
     DashboardComponent,
     ProfileComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,

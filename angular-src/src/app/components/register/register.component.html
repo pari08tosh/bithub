@@ -15,5 +15,16 @@
     <label for="password">Password</label>
     <input type="password" class="form-control" id="password" [(ngModel)] = "password" name="password" placeholder="Password" required>
   </div>
+  <div class="form-group">
+    <label for="securityQuestion">Security Question</label>
+    <input type="text" class="form-control" id="securityQuestion" [(ngModel)] = "securityQuestion" name="securityQuestion" placeholder="Write your question" required>
+    <p>
+      This question would be used to recover your password in case you forget it.
+    </p>
+  </div>
+  <div class="form-group">
+    <label for="securityAns">Password</label>
+    <input type="security-ans" class="form-control" id="securityAns" [(ngModel)] = "securityAns" name="securityAns" placeholder="Ans" required>
+  </div>
   <button type="submit" class="btn btn-primary">Register</button>
 </form>

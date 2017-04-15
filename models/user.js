@@ -13,15 +13,27 @@ const UserSchema = mongoose.Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
   },
   username: {
     type: String,
-    required: true
+    required: true,
+    unique: true,
   },
   password: {
     type: String,
     required: true
+  },
+  joinDate: {
+    type: Date,
+    deafult: Date.now,
+  },
+  securityQuestion: {
+    type: String,
+  },
+  securityAns: {
+    type: String,
   }
 });
 
@@ -42,6 +54,16 @@ module.exports.addUser = function(newUser, callback){
       if(err) throw err;
       newUser.password = hash;
       newUser.save(callback);
+    });
+  });
+};
+
+module.exports.updatePassword = function(user, callback) {
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(user.password, salt, (err, hash) => {
+      if(err) throw err;
+      user.password = hash;
+      User.update({ username: user.username }, { password: user.password }, callback);
     });
   });
 };

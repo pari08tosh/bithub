@@ -56,4 +56,18 @@ export class AuthService {
   loggedIn() {
     return tokenNotExpired('id_token');
   }
+
+  authUsername(user) {
+    let headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/users/forgotPassword/username', user, {headers: headers})
+      .map(res => res.json());
+  }
+
+  changePassword(user) {
+    let headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('http://localhost:3000/users/forgotPassword/answer', user, {headers: headers})
+      .map(res => res.json());
+  }
 }

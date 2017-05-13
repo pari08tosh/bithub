@@ -30,12 +30,20 @@ export class ForgotPasswordComponent implements OnInit {
     const user = {
       username: this.username,
     }
+
+    for(let key in user) {
+      if(!user[key]) {
+      this.flashMessagesService.show(`Please fill all fields marked in red`, { cssClass: 'alert-danger', timeout: 1500 });
+      return false;
+      }
+    }
+
     this.authService.authUsername(user).subscribe(data => {
       if(data.success) {
         this.securityQuestion = data.securityQuestion;
         this.usernameEntered = true;
       } else {
-        this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 3000 });
+        this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 1500 });
       }
     });
   }
@@ -46,12 +54,20 @@ export class ForgotPasswordComponent implements OnInit {
       password: this.password,
       answer: this.answer,
     }
+
+    for(let key in user) {
+      if(!user[key]) {
+      this.flashMessagesService.show(`Please fill all fields marked in red`, { cssClass: 'alert-danger', timeout: 1500 });
+      return false;
+      }
+    }
+
     this.authService.changePassword(user).subscribe(data => {
       if (data.success) {
-          this.flashMessagesService.show(data.msg, { cssClass: 'alert-success', timeout: 3000 });
+          this.flashMessagesService.show(data.msg, { cssClass: 'alert-success', timeout: 1500 });
           this.router.navigate(['/login']);
       } else {
-          this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 3000 });
+          this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 1500 });
           this.router.navigate(['/forgotPassword']);
       }
     })

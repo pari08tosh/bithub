@@ -28,12 +28,21 @@ export class LoginComponent implements OnInit {
       password: this.password,
     }
 
+    for(let key in user) {
+      if(!user[key]) {
+      this.flashMessagesService.show(`Please fill all fields marked in red`, { cssClass: 'alert-danger', timeout: 1500 });
+      return false;
+      }
+    }
+
     this.authService.authenticateUser(user).subscribe(data  => {
       if (data.success) {
         this.authService.storeUserInfo(data.token, data.user);
-        this.router.navigate(['/dashboard']);
+        localStorage.setItem('login', 'true');
+        this.router.navigate(['/blogs'], { queryParams: { pn: 0, login: true } });
+
       } else {
-        this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 3000 });
+        this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 1500 });
         this.router.navigate(['/login']);
         return false;
       }

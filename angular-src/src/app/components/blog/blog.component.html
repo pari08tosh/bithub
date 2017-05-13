@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 backbtn">
+      <a class="btn btn-primary btn-sm" [routerLink] = "['/blogs']" [queryParams] = "{ pn: 0 }" >All Blogs</a>
+    </div>
+    <div *ngIf="editable" class="col-sm-6 editbtn">
+      <a class="btn btn-primary btn-sm" [routerLink]="['/editBlog']" [queryParams] = "{ id: currentBlog._id }">Edit</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="blog container">
+  <div class="page-header">
+    <h2>{{currentBlog.heading}}</h2>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <h5>
+        Written By - <a [routerLink] = "['/users']" [queryParams] = "{ username: currentBlog.username }">{{currentBlog.username}}</a>
+      </h5>
+    </div>
+    <div class="col-sm-4">
+      <h5>
+        Written On - {{currentBlog.modifiedDate}}
+      </h5>
+    </div>
+    <div class="col-sm-4">
+      <h5>
+      Tags:-  <span *ngFor = "let tag of currentBlog.tags"><a [routerLink] = "['/blogs']" [queryParams] = "{ tag: tag, pn: 0 }">{{tag}}  </a></span>
+    </h5>
+    </div>
+  </div>
+  <div [innerHTML]="currentBlog.body">
+
+  </div>
+</div>

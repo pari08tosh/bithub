@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import {Router, ActivatedRoute, Params} from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
@@ -10,18 +10,29 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 })
 export class NavbarComponent implements OnInit {
 
+  user: Object = [];
+  login: String;
+
   constructor(
     private authService: AuthService,
     private router: Router,
     private flashMessagesService: FlashMessagesService,
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit() {
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      this.login = params['login'];
+      if (this.login) {
+        this.user = this.authService.getUser();
+      }
+    });
+    this.user = this.authService.getUser();
   }
 
   userLogout() {
     this.authService.userLogout();
-    this.flashMessagesService.show(`SuccessFully Logged Out`, { cssClass: 'alert-success', timeout: 3000 });
+    this.flashMessagesService.show(`Successfully Logged Out`, { cssClass: 'alert-success', timeout: 1500 });
     this.router.navigate(['/']);
   }
 

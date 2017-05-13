@@ -1,0 +1,16 @@
+.blog-div {
+  margin: 10px;
+  border-bottom: 1px solid rgba(24, 24, 24, 0.43);
+}
+a {
+  color: rgba(#18bb9c, 0.63);
+  text-decoration: none;
+}
+a:hover {
+  color: #0f7d68;
+}
+.blog p {
+  margin: 30px 10px 30px 10px;
+  width: 80%;
+  font-size: 120%;
+}

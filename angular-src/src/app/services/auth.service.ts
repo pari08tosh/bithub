@@ -8,20 +8,24 @@ export class AuthService {
 
   authToken: any;
   user: any;
+  // Server Address
+  serverAddress: string;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {
+    this.serverAddress = 'localhost:3000';
+  }
 
   registerUser(user) {
     let headers = new Headers;
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/register', user, {headers: headers})
+    return this.http.post('http://' + this.serverAddress + '/users/register', user, {headers: headers})
       .map(res => res.json());
   }
 
   authenticateUser(user) {
     let headers = new Headers;
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/authenticate', user, {headers: headers})
+    return this.http.post('http://' + this.serverAddress + '/users/authenticate', user, {headers: headers})
       .map(res => res.json());
   }
 
@@ -39,18 +43,22 @@ export class AuthService {
     localStorage.removeItem('user');
   }
 
-  authProfile() {
+  authProfile(user) {
     let headers = new Headers;
     headers.append('Content-Type', 'application/json');
-    this.getToken();
-    headers.append('Authorization', this.authToken);
-    return this.http.get('http://localhost:3000/users/profile', {headers: headers})
+    return this.http.post('http://' + this.serverAddress + '/users/profile', user, {headers: headers})
       .map(res => res.json());
   }
 
   getToken() {
     const token = localStorage.getItem('id_token');
     this.authToken = token;
+  }
+
+  getUser() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user);
+    return user;
   }
 
   loggedIn() {
@@ -60,14 +68,14 @@ export class AuthService {
   authUsername(user) {
     let headers = new Headers;
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/forgotPassword/username', user, {headers: headers})
+    return this.http.post('http://' + this.serverAddress + '/users/forgotPassword/username', user, {headers: headers})
       .map(res => res.json());
   }
 
   changePassword(user) {
     let headers = new Headers;
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/forgotPassword/answer', user, {headers: headers})
+    return this.http.post('http://' + this.serverAddress + '/users/forgotPassword/answer', user, {headers: headers})
       .map(res => res.json());
   }
 }

@@ -1,22 +1,23 @@
 {
-  "name": "meanauthapp",
+  "name": "bithub",
   "version": "1.0.0",
-  "description": "MEAN stack authentication app",
+  "description": "MEAN stack Blog App",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app"
   },
-  "dependencies":{
-    "express":"*",
-    "mongoose":"*",
-    "bcryptjs":"*",
-    "cors":"*",
-    "jsonwebtoken":"*",
-    "body-parser":"*",
-    "passport":"*",
-    "passport-jwt":"*"
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "*",
+    "cors": "*",
+    "express": "*",
+    "jsonwebtoken": "*",
+    "mongoose": "*",
+    "passport": "*",
+    "passport-jwt": "*",
+    "please-wait": "0.0.5"
   },
-  "author": "Brad Traversy",
+  "author": "Paritosh Sharma",
   "license": "ISC"
 }

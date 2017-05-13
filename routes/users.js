@@ -77,8 +77,20 @@ router.post('/authenticate', (req, res, next) => {
 });
 
 // Profile
-router.get('/profile', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-  res.json(req.user);
+router.post('/profile', (req, res, next) => {
+  const username = req.body.username;
+  User.getUserByUsername(username, (err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json({
+        status: true,
+        username: data.username,
+        email: data.email,
+        name: data.name,
+      });
+    }
+  });
 });
 
 router.post('/forgotPassword/username', (req, res, next) => {

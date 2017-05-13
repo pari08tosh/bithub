@@ -9,6 +9,8 @@ const cors = require('cors');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const config = require('./config/database');
+const blogs = require('./routes/blogs');
+const users = require('./routes/users');
 
 // Connect To Database
 mongoose.connect(config.database);
@@ -24,8 +26,6 @@ mongoose.connection.on('error', (err) => {
 });
 
 const app = express();
-
-const users = require('./routes/users');
 
 // Port Number
 const port = 3000;
@@ -45,13 +45,17 @@ app.use(passport.initialize());
 app.use(passport.session());
 require('./config/passport')(passport);
 
-// hithere
-
+// Routes
 app.use('/users', users);
+app.use('/blogs', blogs);
 
 // Index Route
 app.get('/', (req, res) => {
-  res.send('Invalid Endpoint');
+  res.send('Server is down');
+});
+
+app.get('*', (req, res, next) => {
+  res.sendFile(path.join(__dirname + '/public/index.html'));
 });
 
 // Start Server

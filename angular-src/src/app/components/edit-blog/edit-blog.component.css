@@ -1,6 +1,6 @@
 form {
   position: relative;
-  left: 20vw;
+  left: 10vw;
   width: 60vw;
   margin-bottom: 20px;
 }
@@ -21,7 +21,7 @@ form {
 textarea {
   margin-top: 10px;
   width: 50vw;
-  height: 30vh;
+  height: 50vh;
 }
 
 label {

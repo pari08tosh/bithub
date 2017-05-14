@@ -1,10 +1,39 @@
 
 .navbar {
-  margin: 0px 0px 10px 0px;
+  margin: 0px 0px 50px 0px;
   border-radius: 0px;
 }
 .navbar-brand {
   position: relative;
   top: -10px;
-  left: -20%;
+}
+
+.search-btn {
+  background-color: transparent;
+  background-image: none;
+}
+
+.search-input{
+  border: none;
+  border-bottom: 2px solid white;
+  background-color: transparent;
+  border-radius: 0px;
+  box-shadow: none;
+  color: white;
+}
+
+.search-btn {
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+}
+
+.search-btn:hover, .search-btn:active, .search-btn:visited {
+    background-color: rgba(#98300d, 0.82) !important;
+}
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: white;
+}
+::-moz-placeholder { /* Firefox 19+ */
+  color: white;
 }

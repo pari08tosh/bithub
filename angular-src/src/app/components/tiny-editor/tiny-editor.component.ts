@@ -12,14 +12,20 @@ import 'tinymce/themes/modern';
 
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/link';
+import 'tinymce/plugins/image';
 
 declare var tinymce: any;
 
 @Component({
   selector: 'app-tiny-editor',
-  template: `<textarea id="tiny"></textarea>`
+  template: `<textarea id="tiny"></textarea>
+  {{body}}`
 })
 export class TinyEditorComponent implements AfterViewInit, OnDestroy {
+
+  body: String;
+
+
   @Input() elementId: String;
   @Output() onEditorContentChange = new EventEmitter();
   editor;
@@ -27,14 +33,13 @@ export class TinyEditorComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     tinymce.init({
       selector: '#tiny',
-      plugins: ['link', 'table'],
+      plugins: ['link', 'table', 'image'],
       skin_url: 'assets/skins/lightgray',
       setup: editor => {
         this.editor = editor;
         editor.on('keyup change', () => {
-          const content = editor.getContent();
-          console.log(content);
-          this.onEditorContentChange.emit(content);
+          this.body = editor.getContent();
+          console.log(this.body);
         });
       }
     });

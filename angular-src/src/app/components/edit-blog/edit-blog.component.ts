@@ -14,7 +14,8 @@ import 'tinymce';
 import 'tinymce/themes/modern';
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/link';
-import 'tinymce/plugins/emoticons';
+import 'tinymce/plugins/image';
+import 'tinymce/plugins/paste';
 
 declare var tinymce: any;
 
@@ -60,8 +61,9 @@ export class EditBlogComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     tinymce.init({
       selector: '#body',
-      plugins: ['link', 'table', 'emoticons'],
+      plugins: ['link', 'table', 'image','paste'],
       skin_url: 'assets/skins/lightgray',
+      paste_data_images: true,
       setup: editor => {
         this.editor = editor;
         editor.on('keyup change', () => {
@@ -93,18 +95,18 @@ initTextarea() {
 
   submitBlog() {
     const blog = {
+      id: this.blogId,
       heading: this.heading,
       body: this.body,
       tags: this.tags,
-      username: JSON.parse(localStorage.getItem('user')).username,
     }
-    this.blogService.addBlog(blog).subscribe(data => {
+    this.blogService.editBlog(blog).subscribe(data => {
       if (data.success) {
-        this.flashMessagesService.show(data.msg, { cssClass: 'alert-success', timeout: 3000 });
-        this.router.navigate(['/blogs']);
+        this.flashMessagesService.show(data.msg, { cssClass: 'alert-success', timeout: 1500 });
+        this.router.navigate(['/blogs'], { queryParams: { pn: 0 }});
       } else {
-        this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 3000 });
-        this.router.navigate(['/writeBlog']);
+        this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 1500 });
+        this.router.navigate(['/editBlog'], { queryParams: { id: this.blogId }});
       }
     });
   }

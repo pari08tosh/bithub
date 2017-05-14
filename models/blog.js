@@ -27,11 +27,19 @@ const BlogSchema = mongoose.Schema({
 
 const Blog = module.exports = mongoose.model('Blog', BlogSchema);
 
-module.exports.countBlogs = function(tag, callback) {
-  if (tag === null) {
-    Blog.find().count(callback);
+module.exports.countBlogs = function(blogObj, callback) {
+  if (blogObj.tag) {
+    Blog.find({ tags: blogObj.tag }).count(callback);
     } else {
-      Blog.find({ tags: tag }).count(callback);
+      if (blogObj.searchString) {
+        Blog.find({$or: [
+          { heading: new RegExp('^'+blogObj.searchString+'$', "i")},
+          { tags: new RegExp('^'+blogObj.searchString+'$', "i")},
+        ]}).
+        count(callback);
+      } else {
+        Blog.find().count(callback);
+      }
     }
 };
 
@@ -55,12 +63,30 @@ module.exports.getBlogs = function(pn, tag, callback) {
     }
 };
 
+module.exports.searchBlog = function(searchObj, callback) {
+  Blog.
+    find({$or: [
+      { heading: new RegExp('^'+searchObj.searchString+'$', "i")},
+      { tags: new RegExp('^'+searchObj.searchString+'$', "i")},
+    ]}).
+    sort('-modifiedDate').
+    select('heading username tags modifiedDate').
+    skip(searchObj.pn*10).
+    limit(10).
+    exec(callback);
+};
+
 module.exports.getBlogById = function(id, callback) {
   Blog.findById(id, callback);
 };
 
 module.exports.insertBlog = function(newBlog, callback) {
   newBlog.save(callback);
+};
+
+module.exports.editBlog = function(blog, callback) {
+  Blog.findOneAndUpdate({ _id: blog.id}, { $set: { heading: blog.heading, tags: blog.tags, body: blog.body, modifiedDate: blog.modifiedDate }}).
+  exec(callback);
 };
 
 module.exports.getBlogByUsername = function(username, callback) {

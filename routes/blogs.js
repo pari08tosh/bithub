@@ -26,11 +26,15 @@ router.post('/', (req, res, next) => {
 });
 
 router.post('/countBlogs', (req, res, next) => {
-  const tag = req.body.tag;
-  Blog.countBlogs(tag, (err, data) => {
+  const blogObj = {
+    tag: req.body.tag,
+    searchString: req.body.searchString,
+  };
+
+  Blog.countBlogs(blogObj, (err, data) => {
     if (err) {
       console.error(` Error in fetching blogs
-        err`);
+        ${err}`);
         res.json({
           success: false,
           msg: 'An error occured',
@@ -40,6 +44,20 @@ router.post('/countBlogs', (req, res, next) => {
         success: true,
         count: data,
       });
+    }
+  });
+});
+
+router.post('/searchBlogs', (req, res, next) => {
+  const searchObj = {
+    pn: req.body.pn,
+    searchString: req.body.searchString,
+  };
+  Blog.searchBlog(searchObj, (err, data) => {
+    if (err) {
+      console.log(`error in searching data ${err}`);
+    } else {
+      res.send(data);
     }
   });
 });
@@ -97,9 +115,34 @@ router.post('/addBlog', passport.authenticate('jwt', { session: false }), (req, 
   });
 });
 
+router.post('/editBlog', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+  const blog = {
+    id: req.body.id,
+    heading: req.body.heading,
+    tags: req.body.tags,
+    modifiedDate: Date.now(),
+    body: req.body.body,
+  };
+
+  Blog.editBlog(blog, (err, data) => {
+    if (err) {
+      console.log(err);
+      res.json({
+        success: false,
+        msg: "Something went wrong",
+      });
+    } else {
+      res.json({
+        success: true,
+        msg: "Blog edited successfully",
+      });
+    }
+  });
+});
+
 router.post('/deleteBlog', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   const blogId = req.body.id;
-  Blog.removeBlog(blogId, (err, callback) => {
+  Blog.removeBlog(blogId, (err, data) => {
     if (err) {
       res.json();
     }

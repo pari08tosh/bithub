@@ -50,26 +50,22 @@ export class BlogsComponent implements OnInit {
         } else {
           this.nextBtnActive = false;
         }
-      },
-      err => {
-        console.log(err);
       });
 
       this.blogService.getBlogs(blogInfo).subscribe(data => {
-      this.blogArray = data;
-    }, err => {
-      console.log(err);
-    });
+        this.blogArray = data;
+      });
     });
    }
 
 
   prevPage() {
     if (this.currentTag === null) {
-      this.router.navigate(['/blogs'], { queryParams: { pn: this.currentPage - 1 } })
+      this.router.navigate(['/blogs'], { queryParams: { pn: this.currentPage - 1 } });
     } else {
-      this.router.navigate(['/blogs'], { queryParams: { tag: this.currentTag, pn: this.currentPage - 1} })
+      this.router.navigate(['/blogs'], { queryParams: { tag: this.currentTag, pn: this.currentPage - 1} });
     }
+    window.scrollTo(0,0);
   }
 
   nextPage() {
@@ -78,6 +74,7 @@ export class BlogsComponent implements OnInit {
     } else {
       this.router.navigate(['/blogs'], { queryParams: { tag: this.currentTag, pn: this.currentPage + 1} })
     }
+    window.scrollTo(0,0);
   }
 
   prevBtn() {

@@ -15,8 +15,6 @@ export class BlogService {
    getBlogCount(blogInfo) {
      let headers = new Headers;
      headers.append('Content-Type', 'application/json');
-     this.token = localStorage.getItem('id_token');
-     headers.append('Authorization', this.token);
      return this.http.post('http://' + this.serverAddress + '/blogs/countBlogs', blogInfo, {headers: headers})
        .map(res => res.json());
    }
@@ -24,9 +22,16 @@ export class BlogService {
   getBlogs(blogInfo) {
     let headers = new Headers;
     headers.append('Content-Type', 'application/json');
+    return this.http.post('http://' + this.serverAddress + '/blogs', blogInfo, {headers: headers})
+      .map(res => res.json());
+  }
+
+  searchBlogs(blogObj) {
+    let headers = new Headers;
+    headers.append('Content-Type', 'application/json');
     this.token = localStorage.getItem('id_token');
     headers.append('Authorization', this.token);
-    return this.http.post('http://' + this.serverAddress + '/blogs', blogInfo, {headers: headers})
+    return this.http.post('http://' + this.serverAddress + '/blogs/searchBlogs', blogObj, {headers: headers})
       .map(res => res.json());
   }
 
@@ -52,6 +57,15 @@ export class BlogService {
     this.token = localStorage.getItem('id_token');
     headers.append('Authorization', this.token);
     return this.http.post('http://' + this.serverAddress + '/blogs/addBlog', blog, {headers: headers})
+      .map(res => res.json());
+  }
+
+  editBlog(blog) {
+    let headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    this.token = localStorage.getItem('id_token');
+    headers.append('Authorization', this.token);
+    return this.http.post('http://' + this.serverAddress + '/blogs/editBlog', blog, {headers: headers})
       .map(res => res.json());
   }
 

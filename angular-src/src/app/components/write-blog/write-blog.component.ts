@@ -14,7 +14,8 @@ import 'tinymce';
 import 'tinymce/themes/modern';
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/link';
-import 'tinymce/plugins/emoticons';
+import 'tinymce/plugins/paste';
+import 'tinymce/plugins/image'
 
 declare var tinymce: any;
 
@@ -44,8 +45,9 @@ export class WriteBlogComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     tinymce.init({
       selector: '#body',
-      plugins: ['link', 'table', 'emoticons'],
+      plugins: ['link', 'table', 'paste', 'image'],
       skin_url: 'assets/skins/lightgray',
+      paste_data_images: true,
       setup: editor => {
         this.editor = editor;
         editor.on('keyup change', () => {
@@ -83,12 +85,14 @@ export class WriteBlogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this.blogService.addBlog(blog).subscribe(data => {
       if (data.success) {
-        this.flashMessagesService.show(data.msg, { cssClass: 'alert-success', timeout: 3000 });
-        this.router.navigate(['/blogs']);
+        this.flashMessagesService.show(data.msg, { cssClass: 'alert-success', timeout: 1500 });
+        this.router.navigate(['/blogs'], { queryParams: { pn: 0 }});
       } else {
-        this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 3000 });
+        this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 1500 });
         this.router.navigate(['/writeBlog']);
       }
+    }, err => {
+      this.flashMessagesService.show("An error occured. Maybe your blog size is too large. Remove some images", { cssClass: 'alert-danger', timeout: 1500 });
     });
   }
 

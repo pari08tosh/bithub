@@ -23,6 +23,7 @@ import { WriteBlogComponent } from './components/write-blog/write-blog.component
 import { TinyEditorComponent } from './components/tiny-editor/tiny-editor.component';
 import { BlogComponent } from './components/blog/blog.component';
 import { EditBlogComponent } from './components/edit-blog/edit-blog.component';
+import { SearchComponent } from './components/search/search.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -35,6 +36,7 @@ const appRoutes: Routes = [
   { path: 'tiny', component: TinyEditorComponent },
   { path: 'blog', component: BlogComponent },
   { path: 'editBlog', component: EditBlogComponent, canActivate: [AuthguardService] },
+  { path: 'search', component: SearchComponent },
 ]
 
 @NgModule({
@@ -51,6 +53,7 @@ const appRoutes: Routes = [
     TinyEditorComponent,
     BlogComponent,
     EditBlogComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,

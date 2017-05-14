@@ -12,6 +12,7 @@ export class NavbarComponent implements OnInit {
 
   user: Object = [];
   login: String;
+  searchString: String;
 
   constructor(
     private authService: AuthService,
@@ -34,6 +35,15 @@ export class NavbarComponent implements OnInit {
     this.authService.userLogout();
     this.flashMessagesService.show(`Successfully Logged Out`, { cssClass: 'alert-success', timeout: 1500 });
     this.router.navigate(['/']);
+  }
+
+  search() {
+    if (this.searchString === '') {
+      return false;
+    } else {
+      this.router.navigate(['/search'], { queryParams: { search: this.searchString, pn: 0 }});
+      this.searchString='';
+    }
   }
 
 }

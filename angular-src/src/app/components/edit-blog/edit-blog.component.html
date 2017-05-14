@@ -1,4 +1,4 @@
-<div>
+<div class="container">
   <div class="page-header">
     <h2>Edit Blog</h2>
   </div>
@@ -14,7 +14,7 @@
     </div>
     <div class="added-tags" *ngIf="tags.length > 0">
       <h5>Added Tags (click to remove Tag)</h5>
-      <button class="tag-button btn btn-sm btn-success" *ngFor="let tag of tags" (click)="removeTag(tag)">{{tag}}</button>
+      <button class="tag-button btn btn-sm btn-info" *ngFor="let tag of tags" (click)="removeTag(tag)">{{tag}}</button>
     </div>
     <div>
       <h3>Current Body</h3>

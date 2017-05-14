@@ -15,11 +15,14 @@
   </div>
   <div  *ngFor='let blog of blogArray' class="blog-div row">
     <h4><a [routerLink] = "['/blog']" [queryParams] = "{ id: blog._id }">{{blog.heading}}</a></h4>
-    <p class='col-sm-6'>By <a [routerLink] = "['/users']" [queryParams] = "{ username: blog.username }">{{blog.username}}</a></p>
-    <div class="col-sm-6">
+    <p class='col-sm-4'>By <a [routerLink] = "['/users']" [queryParams] = "{ username: blog.username }">{{blog.username}}</a></p>
+    <div class="col-sm-4">
         <p>
           Tags:- <span *ngFor='let tag of blog.tags'><a [routerLink] = "['/blogs']" [queryParams] = "{tag: tag}">{{tag}}  </a></span>
         </p>
     </div>
+    <p class="col-sm-4">
+      Written On - {{blog.modifiedDate | date}}
+    </p>
   </div>
 </div>

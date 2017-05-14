@@ -29,7 +29,6 @@ export class BlogComponent implements OnInit {
 
       this.blogService.getBlogById(blog).subscribe(data => {
         this.currentBlog = data;
-        this.currentBlog.modifiedDate = this.currentBlog.modifiedDate.split('T')[0];
         this.username = JSON.parse(localStorage.getItem('user')).username;
         if (this.username === this.currentBlog.username) {
           this.editable = true;

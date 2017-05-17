@@ -8,12 +8,11 @@ import { BlogService } from '../../services/blog.service';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
-  blogArray: any;
+  blogList: any;
   currentPage: number;
   blogCount: number;
-  prevBtnActive: Boolean = false;
-  nextBtnActive: Boolean = false;
   searchString: String;
+  dataAvailable: Boolean = false;
 
   constructor(
     private blogService: BlogService,
@@ -33,54 +32,12 @@ export class SearchComponent implements OnInit {
 
       this.blogService.getBlogCount(blogInfo).subscribe(data => {
         this.blogCount = Number(data.count);
-        console.log(this.blogCount);
-        if (this.currentPage > 0) {
-          this.prevBtnActive = true;
-        } else {
-          console.log('Yes')
-          this.prevBtnActive = false;
-        }
-
-        if (this.currentPage < Math.floor(this.blogCount/10)) {
-          this.nextBtnActive = true;
-        } else {
-          this.nextBtnActive = false;
-        }
       });
 
       this.blogService.searchBlogs(blogInfo).subscribe(data => {
-        this.blogArray = data;
+        this.blogList = data;
+        this.dataAvailable = true;
       });
     });
    }
-
-
-  prevPage() {
-    this.router.navigate(['/blogs'], { queryParams: { search: this.searchString, pn: this.currentPage - 1} });
-    window.scrollTo(0,0);
-  }
-
-  nextPage() {
-    this.router.navigate(['/blogs'], { queryParams: { search: this.searchString, pn: this.currentPage + 1} })
-    window.scrollTo(0,0);
-  }
-
-  prevBtn() {
-    return {
-      'btn': true,
-      'btn-sm': true,
-      'btn-primary': true,
-      'disabled': !this.prevBtnActive,
-    }
-  }
-
-  nextBtn() {
-    return {
-      'btn': true,
-      'btn-sm': true,
-      'btn-primary': true,
-      'disabled': !this.nextBtnActive,
-    }
-  }
-
 }

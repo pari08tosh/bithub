@@ -33,8 +33,8 @@ module.exports.countBlogs = function(blogObj, callback) {
     } else {
       if (blogObj.searchString) {
         Blog.find({$or: [
-          { heading: new RegExp('^'+blogObj.searchString+'$', "i")},
-          { tags: new RegExp('^'+blogObj.searchString+'$', "i")},
+          { heading: new RegExp(blogObj.searchString, "i")},
+          { tags: new RegExp(blogObj.searchString, "i")},
         ]}).
         count(callback);
       } else {
@@ -66,8 +66,8 @@ module.exports.getBlogs = function(pn, tag, callback) {
 module.exports.searchBlog = function(searchObj, callback) {
   Blog.
     find({$or: [
-      { heading: new RegExp('^'+searchObj.searchString+'$', "i")},
-      { tags: new RegExp('^'+searchObj.searchString+'$', "i")},
+      { heading: new RegExp(searchObj.searchString, "i")},
+      { tags: new RegExp(searchObj.searchString, "i")},
     ]}).
     sort('-modifiedDate').
     select('heading username tags modifiedDate').

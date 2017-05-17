@@ -7,39 +7,38 @@ import {
   Output
 } from '@angular/core';
 
-import 'tinymce';
 import 'tinymce/themes/modern';
-
 import 'tinymce/plugins/table';
 import 'tinymce/plugins/link';
-import 'tinymce/plugins/image';
+import 'tinymce/plugins/paste';
+import 'tinymce/plugins/image'
 
 declare var tinymce: any;
 
 @Component({
   selector: 'app-tiny-editor',
-  template: `<textarea id="tiny"></textarea>
-  {{body}}`
+  template: `
+  <div class="form-group">
+    <label for="body">Main Body</label>
+    <textarea style="height: 40vh" id="body" name="body" class="form-control"></textarea>
+  </div>`
 })
 export class TinyEditorComponent implements AfterViewInit, OnDestroy {
-
-  body: String;
-
-
-  @Input() elementId: String;
   @Output() onEditorContentChange = new EventEmitter();
+
   editor;
 
   ngAfterViewInit() {
     tinymce.init({
-      selector: '#tiny',
-      plugins: ['link', 'table', 'image'],
+      selector: '#body',
+      plugins: ['link', 'table', 'paste', 'image'],
       skin_url: 'assets/skins/lightgray',
+      paste_data_images: true,
       setup: editor => {
         this.editor = editor;
         editor.on('keyup change', () => {
-          this.body = editor.getContent();
-          console.log(this.body);
+          const content = editor.getContent();
+          this.onEditorContentChange.emit(content);
         });
       }
     });

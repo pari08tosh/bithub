@@ -24,6 +24,7 @@ import { TinyEditorComponent } from './components/tiny-editor/tiny-editor.compon
 import { BlogComponent } from './components/blog/blog.component';
 import { EditBlogComponent } from './components/edit-blog/edit-blog.component';
 import { SearchComponent } from './components/search/search.component';
+import { BlogListComponent } from './components/blog-list/blog-list.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -54,6 +55,7 @@ const appRoutes: Routes = [
     BlogComponent,
     EditBlogComponent,
     SearchComponent,
+    BlogListComponent,
   ],
   imports: [
     BrowserModule,

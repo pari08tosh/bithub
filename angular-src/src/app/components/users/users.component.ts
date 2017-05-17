@@ -12,7 +12,8 @@ import {Router, ActivatedRoute, Params} from '@angular/router';
 export class UsersComponent implements OnInit {
 
   username: String;
-  blogArray: any;
+  blogList: any;
+  dataAvailable: Boolean = false;
   email: String;
   name: String;
 
@@ -32,7 +33,8 @@ export class UsersComponent implements OnInit {
         this.email = data.email;
         this.name = data.name;
         this.blogService.getBlogByUsername(user).subscribe(data => {
-          this.blogArray = data;
+          this.blogList = data;
+          this.dataAvailable = true;
         });
       });
     });

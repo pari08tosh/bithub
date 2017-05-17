@@ -21,7 +21,7 @@
           <ul class="dropdown-menu nav-user-menu dropdown-menu-right">
             <li><a [routerLink] = "['/users']" [queryParams] = "{ username: user.username }"><i class="fa fa-user-circle-o" aria-hidden="true"></i> My Profile</a></li>
             <li><a [routerLink]="['./writeBlog']"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Write Blog</a></li>
-            <li><a href="#" (click)="userLogout()"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+            <li><a style="cursor: pointer"(click)="userLogout()"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
           </ul>
         </li>
       </ul>

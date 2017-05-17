@@ -2,45 +2,7 @@
   <div class="page-header">
       <h2>Search results for - {{searchString}}</h2>
   </div>
-  <div  *ngFor='let blog of blogArray' class="blog-div row">
-    <h4><a [routerLink] = "['/blog']" [queryParams] = "{ id: blog._id }">{{blog.heading}}</a></h4>
-    <p class='col-sm-4'>By <a [routerLink] = "['/users']" [queryParams] = "{ username: blog.username }">{{blog.username}}</a></p>
-    <div class="col-sm-4">
-        <p>
-          Tags:- <span *ngFor='let tag of blog.tags'><a [routerLink] = "['/blogs']" [queryParams] = "{ tag: tag, pn: 0 }">{{tag}}  </a></span>
-        </p>
-    </div>
-    <p class="col-sm-4">
-      Written On - {{ blog.modifiedDate | date }}
-    </p>
-  </div>
-  <div class="btn-controls">
-    <button  [ngClass]="prevBtn()" (click)="prevPage()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Prev</button>
-    <span>Page {{currentPage}}</span>
-    <button  [ngClass]="nextBtn()" (click)="nextPage()">Next <i class="fa fa-arrow-right" aria-hidden="true"></i></button>
-  </div>
-<div *ngIf="false" class="blog container">
-  <div class="page-header">
-    <h2>{{currrentBlog.heading}}</h2>
-  </div>
-  <div class="row">
-    <div class="col-sm-4">
-      <h5>
-        Written By - <a [routerLink] = "['/users']" [queryParams] = "{ username: currrentBlog.username }">{{currrentBlog.username}}</a>
-      </h5>
-    </div>
-    <div class="col-sm-4">
-      <h5>
-        Written On - {{currrentBlog.modifiedDate}}
-      </h5>
-    </div>
-    <div class="col-sm-4">
-      <h5>
-      Tags:-  <span *ngFor = "let tag of currrentBlog.tags"><a [routerLink] = "['/blogs']" [queryParams] = "{ tag: tag, pn: 0 }">{{tag}}  </a></span>
-    </h5>
-    </div>
-  </div>
-  <div [innerHTML]="currrentBlog.body">
-
+  <div *ngIf="dataAvailable">
+    <app-blog-list [blogList] = "blogList" [blogCount]="blogCount" [currentPage]="currentPage"></app-blog-list>
   </div>
 </div>

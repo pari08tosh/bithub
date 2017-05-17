@@ -1,12 +1,4 @@
-import {
-  Component,
-  AfterViewInit,
-  EventEmitter,
-  OnDestroy,
-  Input,
-  Output,
-  OnInit,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../../services/blog.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
@@ -24,10 +16,7 @@ declare var tinymce: any;
   templateUrl: './write-blog.component.html',
   styleUrls: ['./write-blog.component.css']
 })
-export class WriteBlogComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input() elementId: String;
-  @Output() onEditorContentChange = new EventEmitter();
-  editor;
+export class WriteBlogComponent implements OnInit {
   heading: String;
   body: String;
   tags: String[] = [];
@@ -42,24 +31,8 @@ export class WriteBlogComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit() {
   }
 
-  ngAfterViewInit() {
-    tinymce.init({
-      selector: '#body',
-      plugins: ['link', 'table', 'paste', 'image'],
-      skin_url: 'assets/skins/lightgray',
-      paste_data_images: true,
-      setup: editor => {
-        this.editor = editor;
-        editor.on('keyup change', () => {
-          this.body = editor.getContent();
-          this.onEditorContentChange.emit(this.body);
-        });
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    tinymce.remove(this.editor);
+  tinyResponce(tinyBody: String) {
+    this.body = tinyBody;
   }
 
   addTag() {

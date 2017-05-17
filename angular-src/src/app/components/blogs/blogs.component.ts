@@ -8,10 +8,11 @@ import { BlogService } from '../../services/blog.service';
   styleUrls: ['./blogs.component.css']
 })
 export class BlogsComponent implements OnInit {
-  blogArray: any;
+  blogList: any;
   currentTag: String;
   currentPage: number;
   blogCount: number;
+  dataAvailable: Boolean = false;
   prevBtnActive: Boolean = false;
   nextBtnActive: Boolean = false;
 
@@ -38,60 +39,12 @@ export class BlogsComponent implements OnInit {
 
       this.blogService.getBlogCount(blogInfo).subscribe(data => {
         this.blogCount = Number(data.count);
-        if (this.currentPage > 0) {
-          this.prevBtnActive = true;
-        } else {
-          console.log('Yes')
-          this.prevBtnActive = false;
-        }
-
-        if (this.currentPage < Math.floor(this.blogCount/10)) {
-          this.nextBtnActive = true;
-        } else {
-          this.nextBtnActive = false;
-        }
       });
 
       this.blogService.getBlogs(blogInfo).subscribe(data => {
-        this.blogArray = data;
+        this.blogList = data;
+        this.dataAvailable = true;
       });
     });
    }
-
-
-  prevPage() {
-    if (this.currentTag === null) {
-      this.router.navigate(['/blogs'], { queryParams: { pn: this.currentPage - 1 } });
-    } else {
-      this.router.navigate(['/blogs'], { queryParams: { tag: this.currentTag, pn: this.currentPage - 1} });
-    }
-    window.scrollTo(0,0);
-  }
-
-  nextPage() {
-    if (this.currentTag === null) {
-      this.router.navigate(['/blogs'], { queryParams: { pn: this.currentPage + 1 } })
-    } else {
-      this.router.navigate(['/blogs'], { queryParams: { tag: this.currentTag, pn: this.currentPage + 1} })
-    }
-    window.scrollTo(0,0);
-  }
-
-  prevBtn() {
-    return {
-      'btn': true,
-      'btn-sm': true,
-      'btn-primary': true,
-      'disabled': !this.prevBtnActive,
-    }
-  }
-
-  nextBtn() {
-    return {
-      'btn': true,
-      'btn-sm': true,
-      'btn-primary': true,
-      'disabled': !this.nextBtnActive,
-    }
-  }
 }

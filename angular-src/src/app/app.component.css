@@ -6,3 +6,6 @@ flash-messages {
   left: 75%;
   z-index: 20;
 }
+.entire-content {
+  margin: 0px 0px 30px 0px;
+}

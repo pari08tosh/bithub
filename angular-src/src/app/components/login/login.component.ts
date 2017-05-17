@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 
 @Component({
@@ -12,14 +12,19 @@ import { FlashMessagesService } from 'angular2-flash-messages';
 export class LoginComponent implements OnInit {
   username: String;
   password: String;
+  destinationUrl: String;
 
   constructor(
     private authService: AuthService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private flashMessagesService: FlashMessagesService,
   ) { }
 
   ngOnInit() {
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      this.destinationUrl = params['url'];
+    });
   }
 
   submitLoginForm() {
@@ -39,7 +44,12 @@ export class LoginComponent implements OnInit {
       if (data.success) {
         this.authService.storeUserInfo(data.token, data.user);
         localStorage.setItem('login', 'true');
-        this.router.navigate(['/blogs'], { queryParams: { pn: 0, login: true } });
+
+        if (this.destinationUrl) {
+          this.router.navigate([this.destinationUrl],{ queryParams: { login: true } });
+        } else {
+          this.router.navigate(['/blogs'], { queryParams: { pn: 0, login: true } });
+        }
 
       } else {
         this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 1500 });
@@ -47,7 +57,5 @@ export class LoginComponent implements OnInit {
         return false;
       }
     });
-
   }
-
 }

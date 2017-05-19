@@ -104,12 +104,12 @@ router.post('/addBlog', passport.authenticate('jwt', { session: false }), (req, 
       console.log(err);
       res.json({
         success: false,
-        msg: 'Something went wrong please try again :( )',
+        msg: 'Something went wrong please try again.',
       });
     } else {
       res.json({
         success: true,
-        msg: 'Blog posted successfully :)',
+        msg: 'Blog posted successfully.',
       });
     }
   });
@@ -142,9 +142,19 @@ router.post('/editBlog', passport.authenticate('jwt', { session: false }), (req,
 
 router.post('/deleteBlog', passport.authenticate('jwt', { session: false }), (req, res, next) => {
   const blogId = req.body.id;
-  Blog.removeBlog(blogId, (err, data) => {
+  Blog.deleteBlog(blogId, (err, data) => {
     if (err) {
-      res.json();
+      console.log(`Error in deleting blog ${ blogId } ---
+        ${err}`);
+      res.json({
+        success: false,
+        msg: "Something went wrong",
+      });
+    } else {
+      res.json({
+        success: true,
+        msg: "Blog deleted successfully",
+      });
     }
   });
 });

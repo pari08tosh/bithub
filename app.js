@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
 const config = require('./config/database');
 const blogs = require('./routes/blogs');
 const users = require('./routes/users');
+const comments = require('./routes/comments');
 
 // Connect To Database
 mongoose.connect(config.database);
@@ -48,6 +49,7 @@ require('./config/passport')(passport);
 // Routes
 app.use('/users', users);
 app.use('/blogs', blogs);
+app.use('/comments', comments);
 
 // Index Route
 app.get('/', (req, res) => {

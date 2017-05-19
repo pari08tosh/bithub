@@ -37,14 +37,23 @@ export class BlogsComponent implements OnInit {
         pn: this.currentPage
       }
 
-      this.blogService.getBlogCount(blogInfo).subscribe(data => {
+      this.blogService.getBlogCount(blogInfo).subscribe(
+        data => {
         this.blogCount = Number(data.count);
-      });
+      },
+      err => {
+        this.blogService.handleError(err);
+      },
+    );
 
       this.blogService.getBlogs(blogInfo).subscribe(data => {
         this.blogList = data;
         this.dataAvailable = true;
-      });
+      },
+      err => {
+        this.blogService.handleError(err);
+      },
+    );
     });
    }
 }

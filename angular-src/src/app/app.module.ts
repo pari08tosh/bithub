@@ -25,6 +25,7 @@ import { BlogComponent } from './components/blog/blog.component';
 import { EditBlogComponent } from './components/edit-blog/edit-blog.component';
 import { SearchComponent } from './components/search/search.component';
 import { BlogListComponent } from './components/blog-list/blog-list.component';
+import { CommentService } from './services/comment.service';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -65,7 +66,7 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     FlashMessagesModule,
   ],
-  providers: [ ValidateService, AuthService, AuthguardService, BlogService ],
-  bootstrap: [AppComponent]
+  providers: [ ValidateService, AuthService, AuthguardService, BlogService, CommentService ],
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

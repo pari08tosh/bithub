@@ -93,3 +93,7 @@ module.exports.getBlogByUsername = function(username, callback) {
   const query = { username: username };
   Blog.find(query).sort('-modifiedDate').exec(callback);
 };
+
+module.exports.deleteBlog = function(blogId, callback) {
+  Blog.find({ _id: blogId }).remove(callback);
+};

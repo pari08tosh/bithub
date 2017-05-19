@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { tokenNotExpired } from 'angular2-jwt';
+import { FlashMessagesService } from 'angular2-flash-messages';
 import 'rxjs/add/operator/map';
 
 @Injectable()
@@ -11,7 +12,10 @@ export class AuthService {
   // Server Address
   serverAddress: string;
 
-  constructor(private http: Http) {
+  constructor(
+    private http: Http,
+    private flashMessagesService: FlashMessagesService,
+  ) {
     this.serverAddress = 'localhost:3000';
   }
 
@@ -77,5 +81,9 @@ export class AuthService {
     headers.append('Content-Type', 'application/json');
     return this.http.post('http://' + this.serverAddress + '/users/forgotPassword/answer', user, {headers: headers})
       .map(res => res.json());
+  }
+
+  handleError(error: any) {
+    this.flashMessagesService.show(error.statusText || "Server Error. Contact admin if error persists", { cssClass: 'alert-danger', timeout: 2500 });
   }
 }

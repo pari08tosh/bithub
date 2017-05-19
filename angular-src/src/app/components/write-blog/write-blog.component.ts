@@ -2,14 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../../services/blog.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
-import 'tinymce';
-import 'tinymce/themes/modern';
-import 'tinymce/plugins/table';
-import 'tinymce/plugins/link';
-import 'tinymce/plugins/paste';
-import 'tinymce/plugins/image'
-
-declare var tinymce: any;
 
 @Component({
   selector: 'app-write-blog',
@@ -56,17 +48,19 @@ export class WriteBlogComponent implements OnInit {
       tags: this.tags,
       username: JSON.parse(localStorage.getItem('user')).username,
     }
-    this.blogService.addBlog(blog).subscribe(data => {
-      if (data.success) {
-        this.flashMessagesService.show(data.msg, { cssClass: 'alert-success', timeout: 1500 });
-        this.router.navigate(['/blogs'], { queryParams: { pn: 0 }});
-      } else {
-        this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 1500 });
-        this.router.navigate(['/writeBlog']);
-      }
-    }, err => {
-      this.flashMessagesService.show("An error occured. Maybe your blog size is too large. Remove some images", { cssClass: 'alert-danger', timeout: 1500 });
-    });
+    this.blogService.addBlog(blog).subscribe(
+      data => {
+        if (data.success) {
+          this.flashMessagesService.show(data.msg, { cssClass: 'alert-success', timeout: 1500 });
+          this.router.navigate(['/blogs'], { queryParams: { pn: 0 }});
+        } else {
+          this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 1500 });
+          this.router.navigate(['/writeBlog']);
+        }
+      },
+      err => {
+        this.blogService.handleError(err);
+      },
+    );
   }
-
 }

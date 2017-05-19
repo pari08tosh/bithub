@@ -40,3 +40,8 @@ label {
   padding: 10px 15px;
   margin: 10px;
 }
+
+.delete-btn {
+  position: relative;
+  top: 15px;
+}

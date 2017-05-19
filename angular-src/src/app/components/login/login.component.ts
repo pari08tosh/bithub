@@ -40,22 +40,26 @@ export class LoginComponent implements OnInit {
       }
     }
 
-    this.authService.authenticateUser(user).subscribe(data  => {
-      if (data.success) {
-        this.authService.storeUserInfo(data.token, data.user);
-        localStorage.setItem('login', 'true');
+    this.authService.authenticateUser(user).subscribe(
+      data  => {
+        if (data.success) {
+          this.authService.storeUserInfo(data.token, data.user);
+          localStorage.setItem('login', 'true');
 
-        if (this.destinationUrl) {
-          this.router.navigate([this.destinationUrl],{ queryParams: { login: true } });
+          if (this.destinationUrl) {
+            this.router.navigate([this.destinationUrl],{ queryParams: { login: true } });
+          } else {
+            this.router.navigate(['/blogs'], { queryParams: { pn: 0, login: true } });
+          }
+
         } else {
-          this.router.navigate(['/blogs'], { queryParams: { pn: 0, login: true } });
+          this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 1500 });
+          this.router.navigate(['/login']);
+          return false;
         }
-
-      } else {
-        this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 1500 });
-        this.router.navigate(['/login']);
-        return false;
-      }
+      },
+      err => {
+        this.authService.handleError(err);
     });
   }
 }

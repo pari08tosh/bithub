@@ -7,12 +7,6 @@ import {
   Output
 } from '@angular/core';
 
-import 'tinymce/themes/modern';
-import 'tinymce/plugins/table';
-import 'tinymce/plugins/link';
-import 'tinymce/plugins/paste';
-import 'tinymce/plugins/image'
-
 declare var tinymce: any;
 
 @Component({

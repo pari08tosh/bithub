@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
+import { FlashMessagesService } from 'angular2-flash-messages';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class BlogService {
@@ -8,7 +10,10 @@ export class BlogService {
   serverAddress: String;
   token: any;
 
-  constructor(private http: Http) {
+  constructor(
+    private http: Http,
+    private flashMessagesService: FlashMessagesService,
+  ) {
      this.serverAddress = 'localhost:3000';
    }
 
@@ -69,4 +74,16 @@ export class BlogService {
       .map(res => res.json());
   }
 
+  deleteBlog(blog) {
+    let headers = new Headers;
+    headers.append('Content-Type', 'application/json');
+    this.token = localStorage.getItem('id_token');
+    headers.append('Authorization', this.token);
+    return this.http.post('http://' + this.serverAddress + '/blogs/deleteBlog', blog, { headers: headers }).
+    map(res => res.json());
+  }
+
+  handleError(error: any) {
+    this.flashMessagesService.show(error.statusText || "Server Error. Contact admin if error persists", { cssClass: 'alert-danger', timeout: 2500 });
+  }
 }

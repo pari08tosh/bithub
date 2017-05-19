@@ -30,14 +30,22 @@ export class SearchComponent implements OnInit {
         pn: this.currentPage,
       }
 
-      this.blogService.getBlogCount(blogInfo).subscribe(data => {
-        this.blogCount = Number(data.count);
+      this.blogService.getBlogCount(blogInfo).subscribe(
+        data => {
+          this.blogCount = Number(data.count);
+        },
+        err => {
+          this.blogService.handleError(err);
       });
 
-      this.blogService.searchBlogs(blogInfo).subscribe(data => {
-        this.blogList = data;
-        this.dataAvailable = true;
-      });
+      this.blogService.searchBlogs(blogInfo).subscribe(
+        data => {
+          this.blogList = data;
+          this.dataAvailable = true;
+        },
+        err => {
+          this.blogService.handleError(err);
+        });
     });
    }
 }

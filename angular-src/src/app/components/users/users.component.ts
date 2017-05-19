@@ -29,14 +29,22 @@ export class UsersComponent implements OnInit {
       const user = {
         username: this.username,
       }
-      this.authService.authProfile(user).subscribe(data => {
-        this.email = data.email;
-        this.name = data.name;
-        this.blogService.getBlogByUsername(user).subscribe(data => {
-          this.blogList = data;
-          this.dataAvailable = true;
+      this.authService.authProfile(user).subscribe(
+        data => {
+          this.email = data.email;
+          this.name = data.name;
+          this.blogService.getBlogByUsername(user).subscribe(
+            data => {
+              this.blogList = data;
+              this.dataAvailable = true;
+            },
+            err => {
+              this.blogService.handleError(err);
+            });
+        },
+        err => {
+          this.authService.handleError(err);
         });
-      });
     });
   }
 

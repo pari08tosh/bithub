@@ -24,6 +24,7 @@ export class EditBlogComponent implements OnInit {
   tags: String[] = [];
   tag: string;
   initialContent: String;
+  deleteBtnText: String;
 
   constructor(
     private blogService: BlogService,
@@ -33,24 +34,29 @@ export class EditBlogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.deleteBtnText = "Delete Blog";
     this.activatedRoute.queryParams.subscribe((params: Params) => {
       this.blogId = params['id'];
       const blog = {
         id: this.blogId,
       }
-      this.blogService.getBlogById(blog).subscribe(data => {
-        this.heading = data.heading;
-        this.initialContent = data.body;
-        this.body = data.body;
-        this.tags = data.tags;
-      })
+      this.blogService.getBlogById(blog).subscribe(
+        data => {
+          this.heading = data.heading;
+          this.initialContent = data.body;
+          this.body = data.body;
+          this.tags = data.tags;
+        },
+        err => {
+          this.blogService.handleError(err);
+      });
     });
   }
 
   tinyResponce(tinyBody: String) {
     this.body = tinyBody;
   }
-  
+
   addTag() {
     this.tags.push(this.tag);
     this.tag = '';
@@ -72,15 +78,43 @@ export class EditBlogComponent implements OnInit {
       body: this.body,
       tags: this.tags,
     }
-    this.blogService.editBlog(blog).subscribe(data => {
-      if (data.success) {
-        this.flashMessagesService.show(data.msg, { cssClass: 'alert-success', timeout: 1500 });
-        this.router.navigate(['/blogs'], { queryParams: { pn: 0 }});
-      } else {
-        this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 1500 });
-        this.router.navigate(['/editBlog'], { queryParams: { id: this.blogId }});
+    this.blogService.editBlog(blog).subscribe(
+      data => {
+        if (data.success) {
+          this.flashMessagesService.show(data.msg, { cssClass: 'alert-success', timeout: 1500 });
+          this.router.navigate(['/blogs'], { queryParams: { pn: 0 }});
+        } else {
+          this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 1500 });
+          this.router.navigate(['/editBlog'], { queryParams: { id: this.blogId }});
+        }
+      },
+      err => {
+        this.blogService.handleError(err);
+      });
+  }
+
+  deleteBlog() {
+    if (this.deleteBtnText === "Delete Blog") {
+      this.deleteBtnText = "Click again to confirm";
+      return false;
+    } else {
+      const blog = {
+        id: this.blogId,
       }
-    });
+      this.blogService.deleteBlog(blog).subscribe(
+        data => {
+          if(data.success) {
+            this.flashMessagesService.show(data.msg, { cssClass: 'alert-success', timeout: 1500 });
+            this.router.navigate(['/blogs'], { queryParams: { pn: 0 }});
+          } else {
+              this.flashMessagesService.show(data.msg, { cssClass: 'alert-danger', timeout: 1500 });
+              this.router.navigate(['/editBlog'], { queryParams: { id: this.blogId }});
+          }
+        },
+        err => {
+          this.blogService.handleError(err);
+        });
+    }
   }
 
 }
